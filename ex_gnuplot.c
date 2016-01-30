@@ -201,11 +201,28 @@ void gnuplot_xy(gnuplot_ctrl *handle, gsl_vector *xdata, gsl_vector *ydata, cons
         return ;
     }
 
+    double xmin = gsl_vector_get(xdata, 0);
+    double xmax = gsl_vector_get(xdata, 0);
+    double ymin = gsl_vector_get(xdata, 0);
+    double ymax = gsl_vector_get(xdata, 0);
+
     for (int i = 0; i < npts; ++i) {
-        fprintf(tmpfd, "%.18e %.18e\n", gsl_vector_get(xdata, i), gsl_vector_get(ydata, i));
+        double xi = gsl_vector_get(xdata, i);
+        double yi = gsl_vector_get(ydata, i);
+        fprintf(tmpfd, "%.18e %.18e\n", xi, yi);
+
+        xmin = (xmin > xi) ? xi : xmin;
+        xmax = (xmax < xi) ? xi : xmax;
+        ymin = (ymin > yi) ? yi : ymin;
+        ymax = (ymax < yi) ? yi : ymax;
     }
 
     fclose(tmpfd);
+
+    double lx = xmax - xmin;
+    double ly = ymax - ymin;
+
+    gnuplot_cmd(handle, "set xrange [%lf:%lf]", xmin-0.05*lx, xmax+0.05*lx);
 
     gnuplot_plot_atmpfile(handle,tmpfname,title,style);
 }
