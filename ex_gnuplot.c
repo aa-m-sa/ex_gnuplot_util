@@ -223,6 +223,7 @@ void gnuplot_xy(gnuplot_ctrl *handle, gsl_vector *xdata, gsl_vector *ydata, cons
     double ly = ymax - ymin;
 
     gnuplot_cmd(handle, "set xrange [%lf:%lf]", xmin-0.05*lx, xmax+0.05*lx);
+    gnuplot_cmd(handle, "set yrange [%lf:%lf]", ymin-0.05*ly, ymax+0.05*ly);
 
     gnuplot_plot_atmpfile(handle,tmpfname,title,style);
 }
