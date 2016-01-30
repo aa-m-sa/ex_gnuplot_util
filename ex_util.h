@@ -27,6 +27,12 @@ gsl_vector *vec_linspace(double xlow, double xhigh, double xstep);
 gsl_vector *vec_fx(db_fx f, gsl_vector *xdata);
 
 /*
+ * vec_from_arr
+ * generates a vector from double array
+ */
+gsl_vector *vec_from_arr(double *arr, int arr_len);
+
+/*
  * sign
  */
 int sign(double x);

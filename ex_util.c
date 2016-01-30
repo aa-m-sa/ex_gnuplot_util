@@ -90,3 +90,17 @@ gsl_vector *vec_fx(db_fx f, gsl_vector *xdata)
 
     return fx;
 }
+
+
+/*
+ * vec_from_arr
+ * generates a vector from double array
+ */
+gsl_vector *vec_from_arr(double *arr, int arr_len)
+{
+    gsl_vector *vec = gsl_vector_alloc(arr_len);
+    for (int i = 0; i < arr_len; ++i) {
+        gsl_vector_set(vec, i, arr[i]);
+    }
+    return vec;
+}
