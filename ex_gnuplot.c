@@ -169,9 +169,43 @@ void ex_plot_xf(gnuplot_ctrl *handle, const int n, double xlow, double xhigh, do
 }
 
 
+/*
+ * ex_plot_xys can plot a variable number n of x, y plots.
+ *
+ * n: number of plots
+ * xdata: x points
+ * ydata: y points
+ * title1: title
+ * style1: gnuplot style spef
+ * (repeat xdatai, ydatai, titlei, stylei until i=n)
+ */
 void ex_plot_xys(gnuplot_ctrl *handle, const int n, gsl_vector *xdata1, gsl_vector *ydata1, const char *title1, const char *style1, ...)
 {
-    //TODO
+    va_list arg_list;
+    va_start(arg_list, style1);
+
+    const char *titles[n];
+    const char *styles[n];
+    gsl_vector *xdata[n];
+    gsl_vector *ydata[n];
+
+    xdata[0] = xdata1;
+    ydata[0] = ydata1;
+    titles[0] = title1;
+    styles[0] = style1;
+
+    for (int i = 1; i < n; ++i) {
+        xdata[i] = va_arg(arg_list, gsl_vector *);
+        ydata[i] = va_arg(arg_list, gsl_vector *);
+        titles[i] = va_arg(arg_list, char *);
+        styles[i] = va_arg(arg_list, char *);
+    }
+
+    for (int i = 0; i < n; ++i) {
+        gnuplot_xy(handle, xdata[i], ydata[i], titles[i], styles[i]);
+    }
+
+    va_end(arg_list);
 }
 
 /*
