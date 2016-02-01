@@ -8,7 +8,6 @@
  *  - idea based on myexamples/gnuplot (syntax) and gnuplot_i by N. Devillard (pipes), except a bit simpler
  *
  * Aaro Salosensaari 2016
- * MIT License
  *
  * Original gnuplot_i was written by N. Devillard 1998 (version 2.10 2003) and is in public domain.
  */
