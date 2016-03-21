@@ -250,9 +250,10 @@ void ex_plot_histo(gnuplot_ctrl *handle, const int n_clusters, const char *histo
 
     for (int i = 0; i < npts; ++i) {
         double li = gsl_vector_get(labels, i);
-        fprintf(tmpfd, "%.18e", li);
+        fprintf(tmpfd, "%.3lf", li);
 
         for (int j = 0; j < n_clusters; ++j) {
+            printf("%lf", gsl_vector_get(xdata[j], i));
             fprintf(tmpfd, " %.18e", gsl_vector_get(xdata[j], i));
         }
         fprintf(tmpfd, "\n");
