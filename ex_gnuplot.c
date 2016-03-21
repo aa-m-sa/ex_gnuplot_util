@@ -253,7 +253,7 @@ void ex_plot_histo(gnuplot_ctrl *handle, const int n_clusters, const char *histo
         fprintf(tmpfd, "%.18e", li);
 
         for (int j = 0; j < n_clusters; ++j) {
-            fprintf(tmpfd, " %.18e", gsl_vector_get(xdata[i], j));
+            fprintf(tmpfd, " %.18e", gsl_vector_get(xdata[j], i));
         }
         fprintf(tmpfd, "\n");
 
