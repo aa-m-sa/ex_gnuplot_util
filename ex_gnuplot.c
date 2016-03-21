@@ -275,7 +275,7 @@ void ex_plot_histo(gnuplot_ctrl *handle, const int n_clusters, const char *histo
         gnuplot_cmd(handle, "set style fill solid border -1");
 
 
-    gnuplot_cmd(handle, "plot for [COL=2:%d] \"%s\" using COL:xticlabels(1)", n_clusters, tmpfname);
+    gnuplot_cmd(handle, "plot for [COL=2:%d] '%s' using COL:xticlabels(1) title columnheader", n_clusters, tmpfname);
     handle->nplots++;
 }
 
