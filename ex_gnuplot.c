@@ -208,6 +208,76 @@ void ex_plot_xys(gnuplot_ctrl *handle, const int n, gsl_vector *xdata1, gsl_vect
     va_end(arg_list);
 }
 
+void ex_plot_histo(gnuplot_ctrl *handle, const int n_clusters, const char *histostyle,
+        const char *style, gsl_vector *labels, gsl_vector *xdata1, const char *title1, ...)
+{
+    int npts = xdata1->size;
+
+    FILE* tmpfd ;
+    char const * tmpfname;
+
+    if (handle==NULL || (npts<1)) {
+        printf("error!!!"); 
+        return;
+    }
+
+    /* Open temporary file for output   */
+    tmpfname = gnuplot_tmpfile(handle);
+    tmpfd = fopen(tmpfname, "w");
+
+    if (tmpfd == NULL) {
+        printf("cannot create temporary file: exiting plot") ;
+        fprintf(stderr,"cannot create temporary file: exiting plot") ;
+        return ;
+    }
+
+    va_list arg_list;
+    gsl_vector *xdata[n_clusters];
+    const char *titles[n_clusters];
+    va_start(arg_list, title1);
+    xdata[0] = xdata1;
+    titles[0] = title1;
+    for (int i = 1; i < n_clusters; ++i) {
+        xdata[i] = va_arg(arg_list, gsl_vector *);
+        titles[i] = va_arg(arg_list, char*);
+    }
+
+    fprintf(tmpfd, "n ");
+    for (int i = 0; i < n_clusters; ++i) {
+        fprintf(tmpfd, " %s", titles[i]);
+    }
+    fprintf(tmpfd, "\n");
+
+    for (int i = 0; i < npts; ++i) {
+        double li = gsl_vector_get(labels, i);
+        fprintf(tmpfd, "%.18e", li);
+
+        for (int j = 0; j < n_clusters; ++j) {
+            fprintf(tmpfd, " %.18e", gsl_vector_get(xdata[i], j));
+        }
+        fprintf(tmpfd, "\n");
+
+    }
+
+    fclose(tmpfd);
+
+
+    gnuplot_cmd(handle, "set style data histogram");
+    if (histostyle != NULL && strlen(histostyle) > 0)
+        gnuplot_cmd(handle, "set style histogram %s", histostyle);
+    else
+        gnuplot_cmd(handle, "set style histogram cluster gap 1");
+
+    if (style != NULL && strlen(style) > 0)
+        gnuplot_cmd(handle, "set style %s", style); 
+    else
+        gnuplot_cmd(handle, "set style fill solid border -1");
+
+
+    gnuplot_cmd(handle, "plot for [COL=2:%d] \"%s\" using COL:xticlabels(1)", n_clusters, tmpfname);
+    handle->nplots++;
+}
+
 /*
  * gnuplot_xy
  * plots one xdata, ydata line plot

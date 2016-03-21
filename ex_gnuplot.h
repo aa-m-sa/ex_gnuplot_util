@@ -87,6 +87,21 @@ void ex_plot_xys(gnuplot_ctrl *handle, const int n, gsl_vector *xdata1, gsl_vect
 
 void gnuplot_xy(gnuplot_ctrl *handle, gsl_vector *xdata, gsl_vector *ydata, const char *title1, const char *style1);
 
+/*
+ * ex_plot_histo
+ * (grouped) histograms with default style
+ *
+ * n_clusters: number of groups
+ * histostyle: parameters for "set style histogram"
+ * style: parameters for "set style"
+ * labels: ticlabels
+ * xdata1: data points of group 1
+ * title1: title
+ * ...
+ */
+void ex_plot_histo(gnuplot_ctrl *handle, const int n_clusters, const char *histostyle,
+        const char *style, gsl_vector *labels, gsl_vector *xdata1, const char *title1, ...)
+
 
 #endif /* ifndef EX_GNUPLOT */
 
