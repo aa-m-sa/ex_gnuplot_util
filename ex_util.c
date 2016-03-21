@@ -104,3 +104,36 @@ gsl_vector *vec_from_arr(double *arr, int arr_len)
     }
     return vec;
 }
+
+
+/*
+ * ex_bins
+ * sort given data into uniform bins (for histograms) with numeric labels
+ */
+void ex_bins(gsl_vector *xdata, int n_bins, gsl_vector *bin_labels_out, gsl_vector *bins_out)
+{
+    double xmax = gsl_vector_max(xdata);
+    double xmin = gsl_vector_min(xdata);
+
+    double step = (xmax - xmin)/(double)n_bins;
+
+    bin_labels_out = gsl_vector_calloc(n_bins);
+    double xi = xmin;
+    for (int i = 0; i < n_bins; ++i) {
+        gsl_vector_set(bin_labels_out, i, xi);
+        xi += step;
+    }
+
+    bins_out = gsl_vector_calloc(n_bins);
+
+    for (unsigned int i = 0; i < xdata->size; ++i) {
+        double x = gsl_vector_get(xdata, i);
+        for (int j =0; j< n_bins; ++j) {
+            if (x >= gsl_vector_get(bin_labels_out, n_bins - j - 1)) {
+                double t = gsl_vector_get(bin_labels_out, n_bins - j - 1) + 1;
+                gsl_vector_set(bin_labels_out, n_bins - j -1, t);
+                break;
+            }
+        }
+    }
+}
