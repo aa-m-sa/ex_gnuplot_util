@@ -100,7 +100,7 @@ void gnuplot_xy(gnuplot_ctrl *handle, gsl_vector *xdata, gsl_vector *ydata, cons
  * ...
  */
 void ex_plot_histo(gnuplot_ctrl *handle, const int n_clusters, const char *histostyle,
-        const char *style, gsl_vector *labels, gsl_vector *xdata1, const char *title1, ...)
+        const char *style, gsl_vector *labels, gsl_vector *xdata1, const char *title1, ...);
 
 
 #endif /* ifndef EX_GNUPLOT */
