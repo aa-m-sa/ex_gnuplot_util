@@ -41,5 +41,5 @@ int sign(double x);
  * ex_bins
  * sort given data into uniform bins (for histograms) with numeric labels
  */
-void ex_bins(gsl_vector *xdata, int n_bins, gsl_vector *bin_labels_out, gsl_vector *bins_out);
+void ex_bins(gsl_vector *xdata, int n_bins, gsl_vector **bin_labels_out, gsl_vector **bins_out);
 #endif

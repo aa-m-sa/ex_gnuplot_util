@@ -111,7 +111,7 @@ gsl_vector *vec_from_arr(double *arr, int arr_len)
  * sort given data into uniform bins (for histograms) with numeric labels
  * vectors *out* should be initialized to zero
  */
-void ex_bins(gsl_vector *xdata, int n_bins, gsl_vector *bin_labels_out, gsl_vector *bins_out)
+void ex_bins(gsl_vector *xdata, int n_bins, gsl_vector **bin_labels_out, gsl_vector **bins_out)
 {
     double xmax = gsl_vector_max(xdata);
     double xmin = gsl_vector_min(xdata);
@@ -120,16 +120,16 @@ void ex_bins(gsl_vector *xdata, int n_bins, gsl_vector *bin_labels_out, gsl_vect
 
     double xi = xmin;
     for (int i = 0; i < n_bins; ++i) {
-        gsl_vector_set(bin_labels_out, i, xi);
+        gsl_vector_set(*bin_labels_out, i, xi);
         xi += step;
     }
 
     for (unsigned int i = 0; i < xdata->size; ++i) {
         double x = gsl_vector_get(xdata, i);
         for (int j =0; j< n_bins; ++j) {
-            if (x >= gsl_vector_get(bin_labels_out, n_bins - j - 1)) {
-                double t = gsl_vector_get(bins_out, n_bins - j - 1) + 1;
-                gsl_vector_set(bins_out, n_bins - j -1, t);
+            if (x >= gsl_vector_get(*bin_labels_out, n_bins - j - 1)) {
+                double t = gsl_vector_get(*bins_out, n_bins - j - 1) + 1;
+                gsl_vector_set(*bins_out, n_bins - j -1, t);
                 break;
             }
         }
