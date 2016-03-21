@@ -263,6 +263,7 @@ void ex_plot_histo(gnuplot_ctrl *handle, const int n_clusters, const char *histo
     fclose(tmpfd);
 
 
+    gnuplot_cmd(handle, "set boxwidth 0.9 relative");
     gnuplot_cmd(handle, "set style data histogram");
     if (histostyle != NULL && strlen(histostyle) > 0)
         gnuplot_cmd(handle, "set style histogram %s", histostyle);
@@ -272,10 +273,10 @@ void ex_plot_histo(gnuplot_ctrl *handle, const int n_clusters, const char *histo
     if (style != NULL && strlen(style) > 0)
         gnuplot_cmd(handle, "set style %s", style); 
     else
-        gnuplot_cmd(handle, "set style fill solid border");
+        gnuplot_cmd(handle, "set style fill solid 1.0 border lt -1");
 
 
-    gnuplot_cmd(handle, "plot for [COL=2:%d] '%s' using COL:xticlabels(1) title columnheader", n_clusters, tmpfname);
+    gnuplot_cmd(handle, "plot for [COL=2:%d+1] '%s' using COL:xticlabels(1) title columnheader", n_clusters, tmpfname);
     handle->nplots++;
 }
 
