@@ -130,8 +130,8 @@ void ex_bins(gsl_vector *xdata, int n_bins, gsl_vector *bin_labels_out, gsl_vect
         double x = gsl_vector_get(xdata, i);
         for (int j =0; j< n_bins; ++j) {
             if (x >= gsl_vector_get(bin_labels_out, n_bins - j - 1)) {
-                double t = gsl_vector_get(bin_labels_out, n_bins - j - 1) + 1;
-                gsl_vector_set(bin_labels_out, n_bins - j -1, t);
+                double t = gsl_vector_get(bins_out, n_bins - j - 1) + 1;
+                gsl_vector_set(bins_out, n_bins - j -1, t);
                 break;
             }
         }
